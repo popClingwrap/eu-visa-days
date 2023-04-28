@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import CalendarContext from "../../store/calendar-ctx";
 import CalendarDay from "../calendar-day";
 
@@ -63,7 +63,6 @@ function Calendar(){
             }
         }
 
-
         setModel([...model]);
     }
 
@@ -86,7 +85,6 @@ function Calendar(){
             }
         }
         else shiftSelectedRange = [index];
-
     }
 
     const handleDayMouseOver = (e, t)=>{
@@ -100,7 +98,20 @@ function Calendar(){
         if(isDragging){
             dragEffect = undefined;
             isDragging = false;
+            saveChanges();
         }
+    }
+
+    const saveChanges = ()=>{
+        const allTripDates = model.filter(i=>i.tripId);
+        if(allTripDates.length === 0){
+            //Upload null
+        }
+        let id = allTripDates[0]
+        console.log(allTripDates);
+        // localStorage.setItem('allTripsX', model.map(i=>{
+        //     return
+        // }))
     }
 
     return (
