@@ -1,0 +1,53 @@
+.border{
+    border-radius: 8px;
+    background: #333;
+    width: 50px;
+    overflow: hidden;
+    display: inline-flex;
+    flex-flow: column nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+
+.month-area{
+    background: #ec0000;
+    margin: 2px 2px 0 2px;
+    border-radius: 6px 6px 0 0;
+    flex: 0 0 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.month-area h1{
+    font-size: 12px;
+    padding: 0;
+    margin: 2px 0;
+}
+
+.day-area{
+    background: #ececec;
+    margin: 0 2px 2px 2px;
+    border-radius: 0 0 6px 6px;
+    flex: 1 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.isTrip .day-area{
+    background: #96cf96;
+}
+
+.day-area p:first-child{
+    font-size: 10px;
+    margin: 2px 0 0;
+}
+
+.day-area p{
+    font-size: 18px;
+    padding: 0;
+    margin: 0 0 2px 0;
+}
+
