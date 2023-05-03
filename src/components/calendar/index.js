@@ -108,7 +108,6 @@ function Calendar(){
             localStorage.removeItem('allTrips')
         }
         else{
-            console.log(allTripDates)
             const toUpload = [{s:allTripDates[0].tripId, e:allTripDates[0].tripId}];
             allTripDates.forEach(d=>{
                 if(d.tripId !== toUpload[0].s){
@@ -118,14 +117,6 @@ function Calendar(){
                     toUpload[0].e = d.date.getTime();
                 }
             })
-
-            // console.log(toUpload.map(i=>{
-            //     return {
-            //         ...i,
-            //         startDate: new Date(i.s),
-            //         endDate: new Date(i.e)
-            //     }
-            // }));
 
             localStorage.setItem('allTrips', JSON.stringify(toUpload))
         }
