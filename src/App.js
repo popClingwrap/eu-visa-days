@@ -49,7 +49,7 @@ const getAllTripDates = (tripsArr)=>{
 }
 
 const createModel = (allTripDates)=>{
-    const tempDate = allTripDates.length > 0 ? new Date(allTripDates.at(-1).date) : new Date();
+    const tempDate = allTripDates.length > 0 ? new Date(Math.max(allTripDates.at(-1).date.getTime(), today.getTime())) : new Date();
     const res = [];
 
     //Populate the model with all dates in the valid range - 180 days in the past to the furthest provided date in the future
