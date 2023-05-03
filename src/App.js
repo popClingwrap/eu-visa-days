@@ -12,16 +12,14 @@ const offsetFromToday = (offsetDays)=>{//Returns a Date that is offset from toda
 const cutOff = offsetFromToday(-180);
 
 const getAllTripDates = (tripsArr)=>{
-
-    //For test purposes, add a trip that straddles the 180-day mark and test trimming
-    tripsArr.unshift({
-        s: offsetFromToday(-182).getTime(),
-        e: offsetFromToday(-177).getTime()
-    })
+    //For test purposes, a place to push edge-case data into the feed before it is parsed
+    // tripsArr=[{
+    //     s: offsetFromToday(-20).getTime(),
+    //     e: offsetFromToday(-10).getTime()
+    // }]
 
     if(!tripsArr) return [];
 
-    console.log(`Trips that start before the 180 cutoff point should be adjusted so that they exist as a trip that STARTS on the cutoof day and have a tripID that natches otherwise the tripId as start datew rule breaks when they get resaved`)
     return tripsArr
         .filter(trip=>trip.e >= cutOff.getTime())//Filter out stored trips that ended further back that the cutoff
         .sort((a,b)=>{//Sort remaining trips chronologically by start date
@@ -45,7 +43,7 @@ const getAllTripDates = (tripsArr)=>{
 
             return dates
         })
-        .reduce((acca, val)=>{//Reduce to a 1 dimensional array of all dates associated with a trip
+        .reduce((acca, val)=>{//Reduce to a 1 dimensional array of all dates associated with any trip
             return acca.concat(val);
         },[]);
 }
@@ -53,6 +51,7 @@ const getAllTripDates = (tripsArr)=>{
 const createModel = (allTripDates)=>{
     const tempDate = allTripDates.length > 0 ? new Date(allTripDates.at(-1).date) : new Date();
     const res = [];
+
     //Populate the model with all dates in the valid range - 180 days in the past to the furthest provided date in the future
     while(tempDate >= cutOff){
         const data = {
@@ -60,8 +59,7 @@ const createModel = (allTripDates)=>{
             date: new Date(tempDate)
         };
 
-        //If the date is part of a trip then keep that association
-        if(tempDate.getTime() === allTripDates.at(-1).date.getTime()){
+        if(allTripDates.length > 0 && tempDate.getTime() === allTripDates.at(-1).date.getTime()){
             data.tripId = allTripDates.at(-1).tripId;
             allTripDates.pop()
         }
@@ -78,7 +76,7 @@ function App() {
 
     useEffect(()=>{
         let dataStr = localStorage.getItem('allTrips');
-        let dataObj = JSON.parse(dataStr||'{}');
+        let dataObj = JSON.parse(dataStr||'[]');
         setModel(createModel(getAllTripDates(dataObj)));
     }, []);
 

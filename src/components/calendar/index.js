@@ -103,43 +103,31 @@ function Calendar(){
     }
 
     const saveChanges = ()=>{
-        console.log(model)
         const allTripDates = model.filter(i=>i.tripId);
         if(allTripDates.length === 0){//There are no dates selected in the current calendar - all indexes are null
-            //Upload null
+            localStorage.removeItem('allTrips')
         }
         else{
-            const toUpload = [];
-            const curTrip = {s:0, e:0};
-            allTripDates.forEach(i=>{
-                // console.log('checking', i);
-                if(curTrip.s === 0) {
-                    // console.log('\tNo start so set to', i.tripId, new Date(i.tripId))
-                    // console.log('\t', new Date(i.tripId).toString())
-                    curTrip.s = i.tripId;
-                }
-                else if(curTrip.s !== i.tripId){
-                    // console.log('\tstart is different to', i.tripId)
-                    // console.log('\tso save for upload', {...curTrip})
-                    toUpload.push({...curTrip})
-                    curTrip.s = i.tripId;
-                    curTrip.e = 0;
-                    // console.log('reset to', {...curTrip})
+            console.log(allTripDates)
+            const toUpload = [{s:allTripDates[0].tripId, e:allTripDates[0].tripId}];
+            allTripDates.forEach((d, i, arr)=>{
+                if(d.tripId !== toUpload[0].s){
+                    toUpload.unshift({s:d.tripId, e:d.tripId})
                 }
                 else{
-                    // console.log('\tset end to', i.date.getTime())
-                    // console.log('\t', new Date(i.date.getTime()))
-                    curTrip.e = i.date.getTime();
+                    toUpload[0].e = d.date.getTime();
                 }
             })
 
-            // console.log(toUpload.map(i=>{
-            //     return {
-            //         ...i,
-            //         startDate: new Date(i.s),
-            //         endDate: new Date(i.e)
-            //     }
-            // }));
+            console.log(toUpload.map(i=>{
+                return {
+                    ...i,
+                    startDate: new Date(i.s),
+                    endDate: new Date(i.e)
+                }
+            }));
+
+            localStorage.setItem('test', JSON.stringify(toUpload))
         }
 
 
