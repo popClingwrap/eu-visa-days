@@ -94,7 +94,7 @@ function Calendar(){
         }
     }
 
-    const handleDayMouseUp = (e, t)=>{
+    const handleDayMouseUp = ()=>{
         if(isDragging){
             dragEffect = undefined;
             isDragging = false;
@@ -110,7 +110,7 @@ function Calendar(){
         else{
             console.log(allTripDates)
             const toUpload = [{s:allTripDates[0].tripId, e:allTripDates[0].tripId}];
-            allTripDates.forEach((d, i, arr)=>{
+            allTripDates.forEach(d=>{
                 if(d.tripId !== toUpload[0].s){
                     toUpload.unshift({s:d.tripId, e:d.tripId})
                 }
@@ -119,21 +119,16 @@ function Calendar(){
                 }
             })
 
-            console.log(toUpload.map(i=>{
-                return {
-                    ...i,
-                    startDate: new Date(i.s),
-                    endDate: new Date(i.e)
-                }
-            }));
+            // console.log(toUpload.map(i=>{
+            //     return {
+            //         ...i,
+            //         startDate: new Date(i.s),
+            //         endDate: new Date(i.e)
+            //     }
+            // }));
 
-            localStorage.setItem('test', JSON.stringify(toUpload))
+            localStorage.setItem('allTrips', JSON.stringify(toUpload))
         }
-
-
-        // localStorage.setItem('allTripsX', model.map(i=>{
-        //     return
-        // }))
     }
 
     return (
