@@ -26,6 +26,7 @@ function CalendarDay(props){
                  props.mouseOverHandler(e, props.date.getTime())
              }}
         >
+            {props.status === 'illegal' && <div className={styles.legality}>!</div>}
             <div className={styles['month-area']}>
                 <h1>{monthFormatter.format(props.date).toUpperCase()}</h1>
             </div>

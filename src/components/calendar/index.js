@@ -1,4 +1,4 @@
-import {useContext, useRef, useEffect} from "react";
+import {useContext, useRef, useEffect, useState} from "react";
 import CalendarContext from "../../store/calendar-ctx";
 import CalendarDay from "../calendar-day";
 import styles from './calendar.module.css';
@@ -12,6 +12,7 @@ let shiftSelectedRange = [];
 function Calendar(){
     const {model, setModel} = useContext(CalendarContext);
     const nativeEl = useRef();
+    const [numDates, setNumDates] = useState(0);//The number of dates in the currently displayed calendar
 
     //Get the earliest date that has a tripId and is directly connected to the data at <index> in the model
     const getEarliestSiblingIndex = (index)=>{
@@ -36,10 +37,12 @@ function Calendar(){
 
     const toggleRange = (startIndex, endIndex, effect)=>{
         let newId = effect === 'show' ? model[startIndex].date.getTime() : null;
+        const modelClone = [...model];
         while(startIndex <= endIndex){
-            model[startIndex].tripId = newId;
+            modelClone[startIndex].tripId = newId;
             startIndex++;
         }
+        setModel(checkLegality())
     }
 
     const toggleTargetItem = (index)=>{
@@ -66,7 +69,7 @@ function Calendar(){
             }
         }
 
-        setModel([...model]);
+        setModel(checkLegality());
     }
 
     const handleDayMouseDown = (e, t)=>{
@@ -87,7 +90,9 @@ function Calendar(){
                 shiftKey = false;
             }
         }
-        else shiftSelectedRange = [index];
+        else {
+            shiftSelectedRange = [index];
+        }
     }
 
     const handleDayMouseOver = (e, t)=>{
@@ -104,6 +109,36 @@ function Calendar(){
             saveChanges();
         }
     }
+
+    const checkLegality = ()=>{
+        return model.map((item, index, arr)=>{
+            if(item.tripId === null){//Date is not part of a trip so legality is not an issue
+                return {
+                    ...item,
+                    status: null
+                }
+            }
+
+            if(index >= 89){//There is enough past dates to potentially be over the 90 day limit
+                const startDate = arr[Math.max(index - 179, 0)].date;//The furthest date in the past with which to compare the current date item
+                const euDays = arr.filter(prev=>{//Find the number of days spent in the EU prior to the date being checked
+                    return prev.tripId !== null
+                        && prev.date.getTime() <= item.date.getTime()
+                        && prev.date.getTime() >= startDate.getTime();
+                })
+
+                return {
+                    ...item,
+                    status: (euDays.length <= 90) ? 'legal' : 'illegal'
+                }
+            }
+
+            return {//Not enough days in the past for legality to be an issue
+                ...item,
+                status: 'legal'
+            }
+        })
+    };
 
     const saveChanges = ()=>{
         const allTripDates = model.filter(i=>i.tripId);
@@ -131,14 +166,23 @@ function Calendar(){
         const modelClone = [...model];
         for(let count = 0; count < n; count++){
             tempDate.setDate(tempDate.getDate() + 1);
-            modelClone.push({tripId: null, date: new Date(tempDate)})
+            modelClone.push({
+                tripId: null,
+                date: new Date(tempDate)
+            })
         }
 
         setModel(modelClone);
     }
 
     useEffect(()=>{
-        nativeEl.current.scrollIntoView({block:'end', behavior:'smooth'});
+        if(model.length > 0 && numDates !== model.length){//Dates have been added to the display
+            nativeEl.current.scrollIntoView({block:'end', behavior:'smooth'});
+            if(numDates === 0) {
+                setModel(checkLegality());//First run
+            }
+            setNumDates(model.length);
+        }
     }, [model]);
 
     return (
@@ -147,6 +191,7 @@ function Calendar(){
                 return <CalendarDay
                     tripId={item.tripId}
                     date={item.date}
+                    status={item.status}
                     key={item.date.getTime()}
                     mouseDownHandler={handleDayMouseDown}
                     mouseOverHandler={handleDayMouseOver}
