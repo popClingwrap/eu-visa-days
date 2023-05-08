@@ -1,7 +1,8 @@
-import {useContext} from "react";
+import {useContext, useRef, useEffect} from "react";
 import CalendarContext from "../../store/calendar-ctx";
 import CalendarDay from "../calendar-day";
 import styles from './calendar.module.css';
+import DayAdder from "../day-adder";
 
 let dragEffect = undefined;
 let isDragging = false;
@@ -10,6 +11,7 @@ let shiftSelectedRange = [];
 
 function Calendar(){
     const {model, setModel} = useContext(CalendarContext);
+    const nativeEl = useRef();
 
     //Get the earliest date that has a tripId and is directly connected to the data at <index> in the model
     const getEarliestSiblingIndex = (index)=>{
@@ -123,8 +125,24 @@ function Calendar(){
         }
     }
 
+    //Add a span of new, blank dates to the end of the calendar
+    const addDatesToCalendar = (n)=>{
+        const tempDate = new Date(model[model.length-1].date);
+        const modelClone = [...model];
+        for(let count = 0; count < n; count++){
+            tempDate.setDate(tempDate.getDate() + 1);
+            modelClone.push({tripId: null, date: new Date(tempDate)})
+        }
+
+        setModel(modelClone);
+    }
+
+    useEffect(()=>{
+        nativeEl.current.scrollIntoView({block:'end', behavior:'smooth'});
+    }, [model]);
+
     return (
-        <div id={styles.calendar}>
+        <div id={styles.calendar} ref={nativeEl}>
             {model.map(item=> {
                 return <CalendarDay
                     tripId={item.tripId}
@@ -136,6 +154,7 @@ function Calendar(){
                 >
                 </CalendarDay>
             })}
+            <DayAdder onClick={addDatesToCalendar} days={90}></DayAdder>
         </div>
     );
 }

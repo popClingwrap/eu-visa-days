@@ -1,5 +1,4 @@
 #calendar{
-    background: green;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     gap: .5em;
