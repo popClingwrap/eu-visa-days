@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import CalendarContext from "../../store/calendar-ctx";
 import CalendarDay from "../calendar-day";
+import styles from './calendar.module.css';
 
 let dragEffect = undefined;
 let isDragging = false;
@@ -123,7 +124,7 @@ function Calendar(){
     }
 
     return (
-        <div>
+        <div id={styles.calendar}>
             {model.map(item=> {
                 return <CalendarDay
                     tripId={item.tripId}
