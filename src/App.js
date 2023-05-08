@@ -79,7 +79,6 @@ function App() {
     useEffect(()=>{
         let dataStr = localStorage.getItem('allTrips');
         let dataObj = JSON.parse(dataStr||'[]');
-        console.log(dataObj)
         setModel(createModel(getAllTripDates(dataObj)));
     }, []);
 

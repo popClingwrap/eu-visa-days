@@ -205,6 +205,8 @@ function Calendar(){
                     mouseUpHandler={handleDayMouseUp}
                 ></CalendarMonth>
             }
+
+            return undefined;
         });
     };
 
