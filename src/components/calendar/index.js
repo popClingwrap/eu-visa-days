@@ -42,6 +42,9 @@ function Calendar(){
             modelClone[startIndex].tripId = newId;
             startIndex++;
         }
+
+        assignIdUpstream(getEarliestSiblingIndex(startIndex));
+
         setModel(checkLegality())
     }
 
