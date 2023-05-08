@@ -1,0 +1,26 @@
+.month{
+
+}
+
+.month-header{
+    padding: .5em .5em 0;
+    font-family: 'Konkhmer Sleokchher', cursive;
+    display: flex;
+    gap: .5em;
+}
+
+.label{
+    flex: 0 0 auto;
+}
+
+.strike{
+    flex: 1 0 auto;
+    background: linear-gradient(transparent 45%, black 50%, transparent 55%);
+}
+
+.days{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: .5em;
+    padding: .5em;
+}

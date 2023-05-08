@@ -3,6 +3,7 @@ import CalendarContext from "../../store/calendar-ctx";
 import CalendarDay from "../calendar-day";
 import styles from './calendar.module.css';
 import DayAdder from "../day-adder";
+import CalendarMonth from "../calendar-month";
 
 let dragEffect = undefined;
 let isDragging = false;
@@ -188,20 +189,28 @@ function Calendar(){
         }
     }, [model]);
 
-    return (
-        <div id={styles.calendar} ref={nativeEl}>
-            {model.map(item=> {
-                return <CalendarDay
-                    tripId={item.tripId}
-                    date={item.date}
-                    status={item.status}
+    const splitOutMonths = ()=>{
+        let tempMonth;
+        return model.map(item=>{
+            if(item.date.getMonth() !== tempMonth){
+                tempMonth = item.date.getMonth();
+                const days = model.filter(i=>{
+                    return item.date.getFullYear() === i.date.getFullYear() && item.date.getMonth() === i.date.getMonth();
+                })
+                return <CalendarMonth
                     key={item.date.getTime()}
+                    days={days}
                     mouseDownHandler={handleDayMouseDown}
                     mouseOverHandler={handleDayMouseOver}
                     mouseUpHandler={handleDayMouseUp}
-                >
-                </CalendarDay>
-            })}
+                ></CalendarMonth>
+            }
+        });
+    };
+
+    return (
+        <div id={styles.calendar} ref={nativeEl}>
+            {splitOutMonths()}
             <DayAdder onClick={addDatesToCalendar} days={90}></DayAdder>
         </div>
     );
