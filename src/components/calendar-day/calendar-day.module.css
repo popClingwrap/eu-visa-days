@@ -34,8 +34,12 @@
     align-items: center;
 }
 
-.isTrip .day-area{
+.isTrip .day-area.legal{
     background: #96cf96;
+}
+
+.isTrip .day-area.illegal{
+    background: #ff9494;
 }
 
 .day-area p:first-child{

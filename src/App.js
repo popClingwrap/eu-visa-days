@@ -1,6 +1,7 @@
 import Calendar from "./components/calendar";
 import CalendarContext from "./store/calendar-ctx";
 import {useState, useEffect} from "react";
+import Header from "./components/header";
 
 const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 const offsetFromToday = (offsetDays)=>{//Returns a Date that is offset from today by a given amount of days
@@ -82,6 +83,7 @@ function App() {
 
     return (
         <div className="App">
+            <Header></Header>
             <CalendarContext.Provider value={{model, setModel}}>
                 <Calendar></Calendar>
             </CalendarContext.Provider>

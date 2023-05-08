@@ -6,7 +6,7 @@ const yearFormatter = new Intl.DateTimeFormat(undefined, {year:'numeric'});
 let color = null;
 
 function CalendarDay(props){
-    color = `#${props.tripId ? props.tripId.toString(16).substring(1, 6).split().reverse().join('').padEnd(6, '0') : 'dadada'}`;
+    // color = `#${props.tripId ? props.tripId.toString(16).substring(1, 6).split().reverse().join('').padEnd(6, '0') : 'dadada'}`;
 
     return (
         <div className={`
@@ -30,7 +30,7 @@ function CalendarDay(props){
             <div className={styles['month-area']}>
                 <h1>{monthFormatter.format(props.date).toUpperCase()}</h1>
             </div>
-            <div className={styles['day-area']} style={{background:color}}>
+            <div className={`${styles['day-area']} ${styles[props.status]}`} style={{background:color}}>
                 <p>{yearFormatter.format(props.date)}</p>
                 <p>{dayFormatter.format(props.date)}</p>
             </div>
