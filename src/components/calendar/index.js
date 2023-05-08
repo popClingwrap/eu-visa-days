@@ -1,6 +1,5 @@
-import {useContext, useRef, useEffect, useState} from "react";
+import {useContext, useRef, useEffect} from "react";
 import CalendarContext from "../../store/calendar-ctx";
-import CalendarDay from "../calendar-day";
 import styles from './calendar.module.css';
 import DayAdder from "../day-adder";
 import CalendarMonth from "../calendar-month";
@@ -9,11 +8,11 @@ let dragEffect = undefined;
 let isDragging = false;
 let shiftKey = false;
 let shiftSelectedRange = [];
+let numDates = 0;
 
 function Calendar(){
     const {model, setModel} = useContext(CalendarContext);
     const nativeEl = useRef();
-    const [numDates, setNumDates] = useState(0);//The number of dates in the currently displayed calendar
 
     //Get the earliest date that has a tripId and is directly connected to the data at <index> in the model
     const getEarliestSiblingIndex = (index)=>{
@@ -181,11 +180,12 @@ function Calendar(){
 
     useEffect(()=>{
         if(model.length > 0 && numDates !== model.length){//Dates have been added to the display
+            console.log('model updated')
             nativeEl.current.scrollIntoView({block:'end', behavior:'smooth'});
             if(numDates === 0) {
                 setModel(checkLegality());//First run
             }
-            setNumDates(model.length);
+            numDates = model.length;
         }
     }, [model]);
 
