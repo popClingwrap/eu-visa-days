@@ -145,6 +145,7 @@ function Calendar(){
 
     const saveChanges = ()=>{
         const allTripDates = model.filter(i=>i.tripId);
+        console.log(allTripDates)
         if(allTripDates.length === 0){//There are no dates selected in the current calendar - all indexes are null
             localStorage.removeItem('allTrips')
         }
@@ -180,7 +181,6 @@ function Calendar(){
 
     useEffect(()=>{
         if(model.length > 0 && numDates !== model.length){//Dates have been added to the display
-            console.log('model updated')
             nativeEl.current.scrollIntoView({block:'end', behavior:'smooth'});
             if(numDates === 0) {
                 setModel(checkLegality());//First run

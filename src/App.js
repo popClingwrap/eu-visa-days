@@ -2,6 +2,7 @@ import Calendar from "./components/calendar";
 import CalendarContext from "./store/calendar-ctx";
 import {useState, useEffect} from "react";
 import Header from "./components/header";
+import Disclaimer from "./components/disclaimer";
 
 function App() {
     const [model, setModel] = useState([]);
@@ -54,7 +55,10 @@ function App() {
     }
 
     const createModel = (allTripDates)=>{
-        const tempDate = allTripDates.length > 0 ? new Date(Math.max(allTripDates.at(-1).date.getTime(), today.getTime())) : new Date();
+        const tempDate = allTripDates.length > 0
+            ? new Date(Math.max(allTripDates.at(-1).date.getTime(), today.getTime()))
+            : new Date(today.getTime());
+
         const res = [];
 
         //Populate the model with all dates in the valid range - 180 days in the past to the furthest provided date in the future
@@ -85,6 +89,7 @@ function App() {
     return (
         <div className="App">
             <Header></Header>
+            <Disclaimer></Disclaimer>
             <CalendarContext.Provider value={{model, setModel}}>
                 <Calendar></Calendar>
             </CalendarContext.Provider>

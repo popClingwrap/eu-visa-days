@@ -1,5 +1,6 @@
 .month{
-
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .month-header{
@@ -7,6 +8,7 @@
     font-family: 'Konkhmer Sleokchher', cursive;
     display: flex;
     gap: .5em;
+    color: #333;
 }
 
 .label{
@@ -15,7 +17,7 @@
 
 .strike{
     flex: 1 0 auto;
-    background: linear-gradient(transparent 45%, black 50%, transparent 55%);
+    background: linear-gradient(transparent 45%, #333 50%, transparent 55%);
 }
 
 .days{

@@ -1,0 +1,21 @@
+.wrapper{
+    font-family: 'Konkhmer Sleokchher', cursive;
+    font-size: .8em;
+    color: #333;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    margin: 1em;
+    text-align: center;
+}
+
+p{
+    margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+    .desktop-only {
+        visibility: hidden;
+        display: none;
+    }
+}
