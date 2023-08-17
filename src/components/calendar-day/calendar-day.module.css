@@ -65,8 +65,8 @@
     border-radius: 1000px;
     font-size: 12px;
     border: 2px #333 solid;
-    padding: 0 5px;
-    transform: translate(-30%,-30%);
+    padding: 0 3px;
+    transform: translate(-30%,-40%);
     color: #333;
 }
 

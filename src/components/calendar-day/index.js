@@ -8,7 +8,6 @@ let color = null;
 
 function CalendarDay(props){
     // color = `#${props.tripId ? props.tripId.toString(16).substring(1, 6).split().reverse().join('').padEnd(6, '0') : 'dadada'}`;
-
     return (
         <div className={`
             ${styles.border}
@@ -27,7 +26,7 @@ function CalendarDay(props){
                  props.mouseOverHandler(e, props.date.getTime())
              }}
         >
-            {props.status === 'illegal' && <div className={styles.legality}>!</div>}
+            {props.status && <div className={styles.legality}>{props.allowanceIndex}</div>}
             <div className={styles['month-area']}>
                 <h1>{monthFormatter.format(props.date).toUpperCase()}</h1>
             </div>

@@ -2,6 +2,7 @@ import styles from './calendar-month.module.css';
 import CalendarDay from "../calendar-day";
 
 export default function CalendarMonth(props) {
+    console.log(props)
     return <div className={styles.month}>
         <div className={styles['month-header']}>
             <div className={styles.label}>{new Intl.DateTimeFormat(undefined, {month:"long", year:'numeric'}).format(props.days[0].date)}</div>
@@ -13,6 +14,7 @@ export default function CalendarMonth(props) {
                     tripId={day.tripId}
                     date={day.date}
                     status={day.status}
+                    allowanceIndex={day.allowanceIndex}
                     key={day.date.getTime()}
                     mouseDownHandler={props.mouseDownHandler}
                     mouseOverHandler={props.mouseOverHandler}

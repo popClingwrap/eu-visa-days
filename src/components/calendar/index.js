@@ -118,27 +118,22 @@ function Calendar(){
             if(item.tripId === null){//Date is not part of a trip so legality is not an issue
                 return {
                     ...item,
-                    status: null
+                    status: null,
+                    allowanceIndex: null
                 }
             }
 
-            if(index >= 89){//There is enough past dates to potentially be over the 90 day limit
-                const startDate = arr[Math.max(index - 179, 0)].date;//The furthest date in the past with which to compare the current date item
-                const euDays = arr.filter(prev=>{//Find the number of days spent in the EU prior to the date being checked
-                    return prev.tripId !== null
-                        && prev.date.getTime() <= item.date.getTime()
-                        && prev.date.getTime() >= startDate.getTime();
-                })
+            const startDate = arr[Math.max(index - 179, 0)].date;//The furthest date in the past with which to compare the current date item
+            const euDays = arr.filter(prev=>{//Find the number of days spent in the EU prior to the date being checked
+                return prev.tripId !== null
+                    && prev.date.getTime() <= item.date.getTime()
+                    && prev.date.getTime() >= startDate.getTime();
+            })
 
-                return {
-                    ...item,
-                    status: (euDays.length <= 90) ? 'legal' : 'illegal'
-                }
-            }
-
-            return {//Not enough days in the past for legality to be an issue
+            return {
                 ...item,
-                status: 'legal'
+                status: (euDays.length <= 90) ? 'legal' : 'illegal',
+                allowanceIndex: euDays.length//The index of this EU day as it stands within the last 180. If this goes over 90 it becomes illegal
             }
         })
     };
