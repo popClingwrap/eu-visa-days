@@ -118,7 +118,6 @@ function Calendar(){
             if(item.tripId === null){//Date is not part of a trip so legality is not an issue
                 return {
                     ...item,
-                    status: null,
                     allowanceIndex: null
                 }
             }
@@ -132,7 +131,6 @@ function Calendar(){
 
             return {
                 ...item,
-                status: (euDays.length <= 90) ? 'legal' : 'illegal',
                 allowanceIndex: euDays.length//The index of this EU day as it stands within the last 180. If this goes over 90 it becomes illegal
             }
         })
@@ -140,7 +138,6 @@ function Calendar(){
 
     const saveChanges = ()=>{
         const allTripDates = model.filter(i=>i.tripId);
-        console.log(allTripDates)
         if(allTripDates.length === 0){//There are no dates selected in the current calendar - all indexes are null
             localStorage.removeItem('allTrips')
         }

@@ -13,7 +13,6 @@ export default function CalendarMonth(props) {
                 return <CalendarDay
                     tripId={day.tripId}
                     date={day.date}
-                    status={day.status}
                     allowanceIndex={day.allowanceIndex}
                     key={day.date.getTime()}
                     mouseDownHandler={props.mouseDownHandler}

@@ -26,11 +26,11 @@ function CalendarDay(props){
                  props.mouseOverHandler(e, props.date.getTime())
              }}
         >
-            {props.status && <div className={styles.legality}>{props.allowanceIndex}</div>}
+            {props.allowanceIndex && <div className={styles.legality}>{props.allowanceIndex}</div>}
             <div className={styles['month-area']}>
                 <h1>{monthFormatter.format(props.date).toUpperCase()}</h1>
             </div>
-            <div className={`${styles['day-area']} ${styles[props.status]}`} style={{background:color}}>
+            <div className={`${styles['day-area']} ${props.allowanceIndex > 90 ? styles.illegal : styles.legal}`} style={{background:color}}>
                 <p>{yearFormatter.format(props.date)}</p>
                 <p>
                     <span>{dayNameFormatter.format(props.date).substring(0,1)}</span>
