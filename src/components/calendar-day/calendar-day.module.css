@@ -53,6 +53,12 @@
     margin: 0 0 2px 0;
 }
 
+.day-area p span{
+    font-size: 10px;
+    padding: 0;
+    margin: 0 0 2px 0;
+}
+
 .legality{
     position: absolute;
     background: #ff8f00;

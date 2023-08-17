@@ -1,7 +1,8 @@
 import styles from "./calendar-day.module.css";
 
 const monthFormatter = new Intl.DateTimeFormat(undefined, {month: 'short'});
-const dayFormatter = new Intl.DateTimeFormat(undefined, {day: '2-digit'});
+const dayDateFormatter = new Intl.DateTimeFormat(undefined, {day: '2-digit'});
+const dayNameFormatter = new Intl.DateTimeFormat(undefined, {weekday: 'short'});
 const yearFormatter = new Intl.DateTimeFormat(undefined, {year:'numeric'});
 let color = null;
 
@@ -32,7 +33,10 @@ function CalendarDay(props){
             </div>
             <div className={`${styles['day-area']} ${styles[props.status]}`} style={{background:color}}>
                 <p>{yearFormatter.format(props.date)}</p>
-                <p>{dayFormatter.format(props.date)}</p>
+                <p>
+                    <span>{dayNameFormatter.format(props.date).substring(0,1)}</span>
+                    &nbsp;{dayDateFormatter.format(props.date)}
+                </p>
             </div>
         </div>
     );
